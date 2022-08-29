@@ -141,7 +141,7 @@
                     canvasx.fillRect(0,0,1200,800);
 
                     //player1.pintar(canvasx);
-                    player2.pintar(canvasx);
+                    //player2.pintar(canvasx);
 
 
 
@@ -155,7 +155,7 @@
                         canvasx.drawImage(shark_izquierda,player1.x,player1.y,50,23);
                     }
                     
-                    //canvasx.drawImage(camaron,player2.x,player2.y);
+                    canvasx.drawImage(camaron,player2.x,player2.y,50,50);
                     update();
 
                 }
@@ -201,8 +201,8 @@
                     }
 
                     if (player1.se_tocan(player2)) {
-                        player2.x = getRandomInt(1000);
-                        player2.y = getRandomInt(500);
+                        player2.x = getRandomInt(1100);
+                        player2.y = getRandomInt(700);
 
                         score+=5;
 
