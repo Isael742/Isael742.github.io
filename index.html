@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Canvas
+        </title>
+        <STyle type="text/css">
+                canvas{
+                    background-color: rgb(93, 193, 185);
+                    padding-left: 0;
+                    padding-right: 0;
+                    margin-left: auto;
+                    margin-right: auto;
+                    display: block;
+                    width: 800px;
+                }
+        </STyle>
+    </head>
+    <body>
+        <canvas id="mycanvas" width="1200" height="800">
+                HOLA TU NAVEGADOR NO FUNCIONA
+        </canvas>
+
+        <script>
+            var canvas = document.getElementById('mycanvas');
+            var canvasx = canvas.getContext('2d');
+
+            var color = "red";
+            var fig = "arc";
+            var press = false;
+            var player1 = null;
+            var player2 = null;
+            var direccion = 'derecha';
+            var speed = 0;
+            var score = 0;
+            var shark_arriba = new Image();
+            var shark_abajo = new Image();
+            var shark_izquierda = new Image();
+            var shark_derecha = new Image();
+            var camaron = new Image();
+            var comer = new Audio();
+
+
+
+            canvas.addEventListener('click',function(e){
+                console.log(e)
+            
+            })
+
+            function generateRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+            }
+
+
+            document.addEventListener('keydown',function(e) {
+                    console.log(e)
+                    
+                    //arriba
+                    if(e.code == 'KeyW' || e.code == 'ArrowUp'){
+                       direccion = 'arriba';
+                       speed = 3;
+                    }
+
+                    //abajo
+                    if(e.code == 'KeyS' || e.code == 'ArrowDown'){
+                       direccion = 'abajo';
+                       speed = 3;
+                    }
+
+                    //izquierda
+                    if(e.code == 'KeyA' || e.code == 'ArrowLeft'){
+                        direccion = 'izquierda';
+                        speed = 3;
+                    }
+
+                    //derecha
+                    if(e.code == 'KeyD' || e.code == 'ArrowRight'){
+                        direccion = 'derecha';
+                        speed = 3;
+                    }
+
+                    paint();
+                })
+
+                document.addEventListener('keyup',function(e) {
+                    console.log(e)
+                    
+                    //arriba
+                    if(e.code == 'KeyW' || e.code == 'ArrowUp'){
+                       direccion = 'arriba';
+                       speed = 0;
+                    }
+
+                    //abajo
+                    if(e.code == 'KeyS' || e.code == 'ArrowDown'){
+                       direccion = 'abajo';
+                       speed = 0;
+                    }
+
+                    //izquierda
+                    if(e.code == 'KeyA' || e.code == 'ArrowLeft'){
+                        direccion = 'izquierda';
+                        speed = 0;
+                    }
+
+                    //derecha
+                    if(e.code == 'KeyD' || e.code == 'ArrowRight'){
+                        direccion = 'derecha';
+                        speed = 0;
+                    }
+
+                    paint();
+                })
+            
+
+                function run() {
+                    canvas = document.getElementById('mycanvas');
+                    canvasx = canvas.getContext('2d');
+
+                    player1 = new Cuadro(10,10, 50,50, "red");
+                    player2 = new Cuadro(100, 700, 50,50, "blue");
+
+                    shark_abajo.src = "shark_abajo.png";
+                    shark_arriba.src = "shark_arriba.png";
+                    shark_izquierda.src = "shark_izquierda.png";
+                    shark_derecha.src = "shark_derecha.png";
+                    camaron.src = "camaron.png";
+                    comer.src = "comer.mp3"
+
+                    paint();
+                }
+
+                function paint() {
+                    window.requestAnimationFrame(paint);
+                    canvasx.fillStyle = 'rgb(93, 193, 185)';
+                    canvasx.fillRect(0,0,1200,800);
+
+                    //player1.pintar(canvasx);
+                    player2.pintar(canvasx);
+
+
+
+                    if (direccion == 'derecha') {
+                        canvasx.drawImage(shark_derecha,player1.x,player1.y,50,23);
+                    }if (direccion == 'arriba') {
+                        canvasx.drawImage(shark_arriba,player1.x,player1.y,48,50);
+                    }if (direccion == 'abajo') {
+                        canvasx.drawImage(shark_abajo,player1.x,player1.y,48,50);
+                    }if (direccion == 'izquierda') {
+                        canvasx.drawImage(shark_izquierda,player1.x,player1.y,50,23);
+                    }
+                    
+                    //canvasx.drawImage(camaron,player2.x,player2.y);
+                    update();
+
+                }
+
+                function update() {
+
+                    //arriba
+                    if(direccion == 'arriba'){
+                        player1.y= player1.y - speed;
+
+                       if (player1.y<=0) {
+                        player1.y = speed;
+                        }
+                    }
+
+                    //abajo
+                    if(direccion == 'abajo'){
+                       player1.y= player1.y + speed;
+
+                       if (player1.y>=800) {
+                        player1.y = speed;
+                        }
+
+                    }
+
+                    //izquierda
+                    if(direccion == 'izquierda'){
+                        player1.x= player1.x - speed;
+                        if (player1.x<=0) {
+                        player1.x+= speed;
+                        }
+                        
+                    }
+
+                    //derecha
+                    if(direccion == 'derecha'){
+                        player1.x= player1.x + speed;
+
+                        if (player1.x>=1200) {
+                        player1.x = speed;
+                        }
+                        
+                    }
+
+                    if (player1.se_tocan(player2)) {
+                        player2.x = getRandomInt(1000);
+                        player2.y = getRandomInt(500);
+
+                        score+=5;
+
+                        comer.play();
+                    }
+
+
+                }
+
+                window.requestAnimationFrame = (function () {
+                    return window.requestAnimationFrame ||
+                        window.webkitRequestAnimationFrame ||
+                        window.mozRequestAnimationFrame ||
+                        function (callback) {
+                            window.setTimeout(callback, 17);
+                        };
+                }());
+
+                function Cuadro(x, y, ancho, alto, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.ancho = ancho;
+                    this.alto = alto;
+                    this.color = color;
+
+                    this.pintar = function(canvasx){
+                        canvasx.fillStyle = this.color;
+                        canvasx.fillRect(this.x, this.y+100,this.ancho,this.alto)
+                        canvasx.strokeRect(this.x, this.y+100,this.ancho,this.alto)
+                        
+                    }
+
+                    this.se_tocan = function (target) { 
+
+                        if(this.x < target.x + target.ancho &&
+
+                            this.x + this.ancho > target.x && 
+
+                            this.y < target.y + target.alto && 
+
+                            this.y + this.alto > target.y){
+
+                                return true;
+                                console.log("hola")	
+
+                            }
+                    };
+                }
+
+                window.addEventListener('load', run, false);
+
+                function getRandomInt(max) {
+                    return Math.floor(Math.random() * max);
+                }
+
+
+        </script>
+    </body>
+</html>
