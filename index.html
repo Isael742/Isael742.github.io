@@ -11,7 +11,8 @@
                 }
         </STyle>
     </head>
-    <body>
+    <body style="min-height: 100%;">
+        
         <canvas id="mycanvas" width="2000" height="1600">
                 HOLA TU NAVEGADOR NO FUNCIONA
         </canvas>
@@ -36,25 +37,15 @@
             var shark_derecha = new Image();
             var camaron = new Image();
             var comer = new Audio();
-            let pared = new Array(5000);
+            var musicaFondo = new Audio();
+            let pared = [];
             var plantilla = new Image();
             var i = 0;
-
-
 
             canvas.addEventListener('click',function(e){
                 console.log(e)
             
             })
-
-            function generateRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-            }
 
             //evento keydown que desplaza al player 1
             document.addEventListener('keydown',function(e) {
@@ -62,26 +53,26 @@
                     
                     //arriba
                     if(e.code == 'KeyW' || e.code == 'ArrowUp'){
+                        speed=15;
                        direccion = 'arriba';
-                       speed = 15;
                     }
 
                     //abajo
                     if(e.code == 'KeyS' || e.code == 'ArrowDown'){
+                        speed=15;
                        direccion = 'abajo';
-                       speed = 15;
                     }
 
                     //izquierda
                     if(e.code == 'KeyA' || e.code == 'ArrowLeft'){
+                        speed=15;
                         direccion = 'izquierda';
-                        speed = 15;
                     }
 
                     //derecha
                     if(e.code == 'KeyD' || e.code == 'ArrowRight'){
+                        speed=15;
                         direccion = 'derecha';
-                        speed = 15;
                     }
 
                 })
@@ -121,25 +112,49 @@
                     canvas = document.getElementById('mycanvas');
                     canvasx = canvas.getContext('2d');
 
-                    player1 = new Cuadro(50,50, 50,50, "red");
+                    //paredes
+                    player1 = new Cuadro(50,70, 50,50, "red");
                     player2 = new Cuadro(100, 700, 50,50, "blue");
+                    //bordes
                     pared[1] = new Cuadro(30, -60, 3,1470, colorParedes);
                     pared[2] = new Cuadro(30, 1405, 1400,3, colorParedes);
                     pared[3] = new Cuadro(100, -70, 1400,3, colorParedes);
                     pared[4] = new Cuadro(1505, 0, 3,1340, colorParedes);
+
+                    //Horizonzal Nivel 1
                     pared[5] = new Cuadro(30, 3, 370,3, colorParedes);
-                    pared[6] = new Cuadro(620, 3, 225,3, "red");
+                    pared[6] = new Cuadro(620, 3, 225,3, colorParedes);
                     pared[7] = new Cuadro(474, 3, 70,3, colorParedes);
                     pared[8] = new Cuadro(1362, 3, 70,3, colorParedes);
                     pared[9] = new Cuadro(990, 3, 300,3, colorParedes);
-                    pared[10] = new Cuadro(30,77, 70,3, "green");
+
+                    //Horizontal Nivel 2
+                    pared[10] = new Cuadro(30,77, 70,3, colorParedes);
                     pared[11] = new Cuadro(400,77, 70,3, colorParedes);
                     pared[12] = new Cuadro(700,77, 70,3, colorParedes);
-                    pared[13] = new Cuadro(800,77, 70,3, "green");
-                    pared[14] = new Cuadro(30,77, 70,3, "green");
-                    pared[15] = new Cuadro(30,77, 70,3, "green");
-                    pared[16] = new Cuadro(30,77, 70,3, "green");
-                    pared[17] = new Cuadro(30,77, 70,3, "green");
+                    pared[13] = new Cuadro(840,77, 222,3, colorParedes);
+                    pared[14] = new Cuadro(1140,77, 222,3, colorParedes);
+                    pared[15] = new Cuadro(1435,77, 70,3, colorParedes);
+
+                    //Horizontal Nivel 3
+                    pared[16] = new Cuadro(102,150, 150,3, colorParedes);
+                    pared[17] = new Cuadro(320,150, 300,3, colorParedes);
+                    pared[18] = new Cuadro(690,150, 300,3, colorParedes);
+                    pared[19] = new Cuadro(1360,150, 70,3, colorParedes);
+
+                    //Horizontal Nivel 4
+                    pared[20] = new Cuadro(30,224,145,3, colorParedes);
+                    pared[21] = new Cuadro(400,224,145,3, colorParedes);
+                    pared[22] = new Cuadro(620,224,70,3, colorParedes);
+                    pared[23] = new Cuadro(990,224,145,3, colorParedes);
+                    pared[24] = new Cuadro(1287,224,70,3, colorParedes);
+
+                    //Horizontal Nivel 5
+                    pared[25] = new Cuadro(105,299,70,3, colorParedes);
+                    pared[26] = new Cuadro(250,299,145,3, colorParedes);
+                    pared[27] = new Cuadro(475,299,145,3, colorParedes);
+                    pared[28] = new Cuadro(915,299,145,3, colorParedes);
+                    pared[29] = new Cuadro(1210,299,300,3, colorParedes);
 
                     shark_abajo.src = "shark_abajo.png";
                     shark_arriba.src = "shark_arriba.png";
@@ -148,6 +163,7 @@
                     camaron.src = "camaron.png";
                     comer.src = "comer.mp3";
                     plantilla.src = "laber.PNG";
+                    musicaFondo.src = "tema.mp3";
 
                     //time+= 1;
 
@@ -157,7 +173,7 @@
                 function paint() {
                     window.requestAnimationFrame(paint);
                     canvasx.fillStyle = 'rgb(93, 193, 185)';
-                    canvasx.fillRect(0,0,1200,800);
+                    canvasx.fillRect(0,0,2000,1600);
 
 
                     canvasx.drawImage(plantilla,20,20,1500,1500);
@@ -169,34 +185,22 @@
 
                     //player1.pintar(canvasx);
                     //player2.pintar(canvasx);
-                    pared[1].pintar(canvasx);
-                    pared[2].pintar(canvasx);
-                    pared[3].pintar(canvasx);
-                    pared[4].pintar(canvasx);
-                    pared[5].pintar(canvasx);
-                    pared[6].pintar(canvasx);
-                    pared[7].pintar(canvasx);
-                    pared[8].pintar(canvasx);
-                    pared[9].pintar(canvasx);
-                    pared[10].pintar(canvasx);
-                    pared[11].pintar(canvasx);
-                    pared[12].pintar(canvasx);
-                    pared[13].pintar(canvasx);
-                    pared[14].pintar(canvasx);
-                    pared[15].pintar(canvasx);
-                    pared[16].pintar(canvasx);
-                    pared[17].pintar(canvasx);
+                    for (let i = 0; i < pared.length; i++){
+                        if(pared[i]){
+                            pared[i].pintar(canvasx);
+                            }
+                    }
 
                     //Pintado de tiburon y camaron
 
                     if (direccion == 'derecha') {
-                        canvasx.drawImage(shark_derecha,player1.x,player1.y,50,23);
+                        canvasx.drawImage(shark_derecha,player1.x,player1.y,40,13);
                     }if (direccion == 'arriba') {
-                        canvasx.drawImage(shark_arriba,player1.x,player1.y,48,50);
+                        canvasx.drawImage(shark_arriba,player1.x,player1.y,40,42);
                     }if (direccion == 'abajo') {
-                        canvasx.drawImage(shark_abajo,player1.x,player1.y,48,50);
+                        canvasx.drawImage(shark_abajo,player1.x,player1.y,30,42);
                     }if (direccion == 'izquierda') {
-                        canvasx.drawImage(shark_izquierda,player1.x,player1.y,50,23);
+                        canvasx.drawImage(shark_izquierda,player1.x,player1.y,40,13);
                     }
                     
                     canvasx.drawImage(camaron,player2.x,player2.y,50,50);
@@ -207,10 +211,11 @@
                 }
 
                 function update() {
-
+                    //musicaFondo.play();
                     //arriba
                     if(direccion == 'arriba'){
-                        player1.y= player1.y - speed;
+                        //speed = 15;
+                        player1.y-=speed;
 
                        if (player1.y<=0) {
                         player1.y += speed;
@@ -219,9 +224,10 @@
 
                     //abajo
                     if(direccion == 'abajo'){
-                       player1.y= player1.y + speed;
+                        //speed = 15;
+                       player1.y+=speed;
 
-                       if (player1.y>=800) {
+                       if (player1.y>=1560) {
                         player1.y -= speed;
                         }
 
@@ -229,7 +235,8 @@
 
                     //izquierda
                     if(direccion == 'izquierda'){
-                        player1.x= player1.x - speed;
+                        //speed = 15;
+                        player1.x-=speed;
                         if (player1.x<=0) {
                         player1.x+= speed;
                         }
@@ -238,9 +245,10 @@
 
                     //derecha
                     if(direccion == 'derecha'){
-                        player1.x= player1.x + speed;
+                        //speed = 15;
+                        player1.x+=speed;
 
-                        if (player1.x>=1200) {
+                        if (player1.x>=1960) {
                         player1.x -= speed;
                         }
                         
@@ -255,227 +263,26 @@
                         comer.play();
                     }
 
-                    if (player1.se_tocan(pared[1])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
+                    for(var i=0; i<=pared.length; i++){
+                    if(player1.se_tocan(pared[i])){
+                        //arriba
+                    if(direccion=='arriba'){
+                        player1.y+=speed;
                     }
-
                     //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
+                    if(direccion=='abajo'){
+                        player1.y-=speed;
                     }
-
                     //izquierda
-                    if(direccion == 'izquierda'){
+                    if(direccion=='izquierda'){
                         player1.x+=speed;
                     }
-
                     //derecha
-                    if(direccion == 'derecha'){
+                    if(direccion=='derecha'){
                         player1.x-=speed;
-
-                }
                     }
-                    if (player1.se_tocan(pared[2])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
                     }
-
-                    //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
                     }
-
-                    //izquierda
-                    if(direccion == 'izquierda'){
-                        player1.x+=speed;
-                    }
-
-                    //derecha
-                    if(direccion == 'derecha'){
-                        player1.x-=speed;
-
-                }
-                    }
-                    if (player1.se_tocan(pared[3])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
-                    }
-
-                    //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
-                    }
-
-                    //izquierda
-                    if(direccion == 'izquierda'){
-                        player1.x+=speed;
-                    }
-
-                    //derecha
-                    if(direccion == 'derecha'){
-                        player1.x-=speed;
-
-                }
-                    }
-                    if (player1.se_tocan(pared[4])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
-                    }
-
-                    //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
-                    }
-
-                    //izquierda
-                    if(direccion == 'izquierda'){
-                        player1.x+=speed;
-                    }
-
-                    //derecha
-                    if(direccion == 'derecha'){
-                        player1.x-=speed;
-
-                }
-                    }
-                    if (player1.se_tocan(pared[5])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
-                    }
-
-                    //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
-                    }
-
-                    //izquierda
-                    if(direccion == 'izquierda'){
-                        player1.x+=speed;
-                    }
-
-                    //derecha
-                    if(direccion == 'derecha'){
-                        player1.x-=speed;
-
-                }
-                    }
-                    if (player1.se_tocan(pared[6])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
-                    }
-
-                    //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
-                    }
-
-                    //izquierda
-                    if(direccion == 'izquierda'){
-                        player1.x+=speed;
-                    }
-
-                    //derecha
-                    if(direccion == 'derecha'){
-                        player1.x-=speed;
-
-                }
-                    }
-                    if (player1.se_tocan(pared[7])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
-                    }
-
-                    //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
-                    }
-
-                    //izquierda
-                    if(direccion == 'izquierda'){
-                        player1.x+=speed;
-                    }
-
-                    //derecha
-                    if(direccion == 'derecha'){
-                        player1.x-=speed;
-
-                }
-                    }
-                    if (player1.se_tocan(pared[8])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
-                    }
-
-                    //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
-                    }
-
-                    //izquierda
-                    if(direccion == 'izquierda'){
-                        player1.x+=speed;
-                    }
-
-                    //derecha
-                    if(direccion == 'derecha'){
-                        player1.x-=speed;
-
-                }
-                    }
-                    if (player1.se_tocan(pared[9])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
-                    }
-
-                    //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
-                    }
-
-                    //izquierda
-                    if(direccion == 'izquierda'){
-                        player1.x+=speed;
-                    }
-
-                    //derecha
-                    if(direccion == 'derecha'){
-                        player1.x-=speed;
-
-                }
-                    }
-                    if (player1.se_tocan(pared[10])) {
-                            //arriba
-                    if(direccion == 'arriba'){
-                       player1.y+=speed;
-                    }
-
-                    //abajo
-                    if(direccion == 'abajo'){
-                       player1.y-=speed;
-                    }
-
-                    //izquierda
-                    if(direccion == 'izquierda'){
-                        player1.x+=speed;
-                    }
-
-                    //derecha
-                    if(direccion == 'derecha'){
-                        player1.x-=speed;
-
-                }
-                    }
-
                 }
 
                 window.requestAnimationFrame = (function () {
@@ -503,6 +310,7 @@
 
                     this.se_tocan = function (target) { 
 
+                        if(target){
                         if(this.x < target.x + target.ancho &&
 
                             this.x + this.ancho > target.x && 
@@ -515,6 +323,7 @@
                                 console.log("hola")	
 
                             }
+                        }
                     };
                 }
                 
@@ -523,14 +332,6 @@
 
                 function getRandomInt(max) {
                     return Math.floor(Math.random() * max);
-                }
-
-                function paredesColicion() {
-                    for(let i = 0; i < 5000; i++){
-                        pared[i]
-                    }
-
-                    return pared[i];
                 }
                 
 
