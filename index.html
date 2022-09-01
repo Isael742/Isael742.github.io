@@ -16,7 +16,7 @@
         <br>
         <h3>Tiempo: <time>00:00</time></h3>
         
-        <canvas id="mycanvas" width="2000" height="1600">
+        <canvas id="mycanvas" width="2500" height="1600">
                 HOLA TU NAVEGADOR NO FUNCIONA
         </canvas>
 
@@ -25,7 +25,7 @@
             var canvasx = canvas.getContext('2d');
 
             var color = "red";
-            var colorParedes = "yellow";
+            var colorParedes = "blue";
             var fig = "arc";
             var press = false;
             var player1 = null;
@@ -49,6 +49,7 @@
             let pared = [];
             var plantilla = new Image();
             var fondo = new Image();
+            var logo = new Image();
             var i = 0;
             var h3 = document.getElementsByTagName('h3')[0];
             var start = document.getElementById('strt');
@@ -130,9 +131,16 @@
                     canvas = document.getElementById('mycanvas');
                     canvasx = canvas.getContext('2d');
 
-                    //paredes
+                    //Jugador
                     player1 = new Cuadro(50,70, 30,30, "red");
-                    player2 = new Cuadro(100, 700, 50,50, "blue");
+
+                    //Coleccionables
+                    player2 = new Cuadro(50, 130, 50,50, "blue");
+                    player3 = new Cuadro(40, 1300, 50,50, "blue");
+                    player4 = new Cuadro(565, 180, 50,50, "blue");
+                    player5 = new Cuadro(1305, 710, 50,50, "blue");
+                    player6 = new Cuadro(490, 645, 50,50, "blue");
+                    player7 = new Cuadro(1460, 345, 50,50, "blue");
                     //bordes
                     pared[1] = new Cuadro(28, 30, 3,1470, colorParedes);
                     pared[2] = new Cuadro(30, 1505, 1400,3, colorParedes);
@@ -165,7 +173,7 @@
                     pared[21] = new Cuadro(400,324,145,3, colorParedes);
                     pared[22] = new Cuadro(620,324,72,3, colorParedes);
                     pared[23] = new Cuadro(990,324,145,3, colorParedes);
-                    pared[24] = new Cuadro(1287,324,72,3, colorParedes);
+                    pared[24] = new Cuadro(1285,324,72,3, colorParedes);
 
                     //Horizontal Nivel 5
                     pared[25] = new Cuadro(105,399,72,3, colorParedes);
@@ -312,7 +320,7 @@
 
                     //Vertical Nivel 7
                     pared[125] = new Cuadro(545,105,3,145, colorParedes);
-                    pared[126] = new Cuadro(545,325,3,145, colorParedes);
+                    pared[126] = new Cuadro(545,325,3,72, colorParedes);
                     pared[127] = new Cuadro(545,548,3,300, colorParedes);
                     pared[128] = new Cuadro(545,920,3,145, colorParedes);
                     pared[129] = new Cuadro(545,1215,3,72, colorParedes);
@@ -332,18 +340,79 @@
                     pared[139] = new Cuadro(618,1360,3,72, colorParedes);
                     pared[140] = new Cuadro(618,1360,3,72, colorParedes);
                     pared[141] = new Cuadro(618,1360,3,72, colorParedes);
-                    pared[142] = new Cuadro(618,1360,3,72, colorParedes);
 
                     //Vertical Nivel 10
-                    pared[143] = new Cuadro(693,180,3,72, colorParedes);
-                    pared[144] = new Cuadro(618,1360,3,72, colorParedes);
-                    pared[145] = new Cuadro(618,1360,3,72, colorParedes);
-                    pared[146] = new Cuadro(618,1360,3,72, colorParedes);
-                    pared[147] = new Cuadro(618,1360,3,72, colorParedes);
-                    pared[148] = new Cuadro(618,1360,3,72, colorParedes);
-                    pared[149] = new Cuadro(618,1360,3,72, colorParedes);
+                    pared[142] = new Cuadro(693,180,3,72, colorParedes);
+                    pared[143] = new Cuadro(693,325,3,145, colorParedes);
+                    pared[144] = new Cuadro(693,547,3,145, colorParedes);
+                    pared[145] = new Cuadro(693,770,3,72, colorParedes);
+                    pared[146] = new Cuadro(693,990,3,72, colorParedes);
+                    pared[147] = new Cuadro(693,1210,3,72, colorParedes);
+                    pared[148] = new Cuadro(693,1433,3,72, colorParedes);
 
+                    //Vertical Nivel 11
+                    pared[149] = new Cuadro(767,325,3,222, colorParedes);
+                    pared[150] = new Cuadro(767,695,3,72, colorParedes);
+                    pared[151] = new Cuadro(767,990,3,222, colorParedes);
 
+                    //Vertical Nivel 12
+                    pared[152] = new Cuadro(840,105,3,72, colorParedes);
+                    pared[153] = new Cuadro(840,250,3,222, colorParedes);
+                    pared[154] = new Cuadro(840,920,3,72, colorParedes);
+                    pared[155] = new Cuadro(840,1065,3,72, colorParedes);
+                    pared[156] = new Cuadro(840,1360,3,72, colorParedes);
+
+                    //Vertical Nivel 13
+                    pared[157] = new Cuadro(915,32,3,72, colorParedes);
+                    pared[158] = new Cuadro(915,252,3,145, colorParedes);
+                    pared[159] = new Cuadro(915,472,3,145, colorParedes);
+                    pared[160] = new Cuadro(915,842,3,72, colorParedes);
+                    pared[161] = new Cuadro(915,1137,3,72, colorParedes);
+
+                    //Vertical Nivel 14
+                    pared[162] = new Cuadro(988,400,3,145, colorParedes);
+                    pared[163] = new Cuadro(988,620,3,72, colorParedes);
+                    pared[164] = new Cuadro(988,770,3,72, colorParedes);
+                    pared[165] = new Cuadro(988,1140,3,72, colorParedes);
+                    pared[166] = new Cuadro(988,1287,3,145, colorParedes);
+
+                    //Vertical Nivel 15
+                    pared[167] = new Cuadro(1062,105,3,222, colorParedes);
+                    pared[168] = new Cuadro(1062,545,3,145, colorParedes);
+                    pared[169] = new Cuadro(1062,840,3,222, colorParedes);
+                    pared[170] = new Cuadro(1062,1215,3,72, colorParedes);
+                    pared[171] = new Cuadro(1062,1360,3,72, colorParedes);
+
+                    //Vertical Nivel 16
+                    pared[172] = new Cuadro(1136,250,3,222, colorParedes);
+                    pared[173] = new Cuadro(1136,843,3,72, colorParedes);
+                    pared[174] = new Cuadro(1136,990,3,72, colorParedes);
+                    pared[175] = new Cuadro(1136,1285,3,72, colorParedes);
+                    pared[176] = new Cuadro(1136,1435,3,72, colorParedes);
+
+                    //Vertical Nivel 17
+                    pared[177] = new Cuadro(1210,180,3,222, colorParedes);
+                    pared[178] = new Cuadro(1210,918,3,72, colorParedes);
+                    pared[179] = new Cuadro(1210,1065,3,222, colorParedes);
+
+                    //Vertical Nivel 18
+                    pared[180] = new Cuadro(1284,180,3,72, colorParedes);
+                    pared[181] = new Cuadro(1284,475,3,440, colorParedes);
+                    pared[182] = new Cuadro(1284,990,3,72, colorParedes);
+                    pared[183] = new Cuadro(1284,1138,3,72, colorParedes);
+                    pared[184] = new Cuadro(1284,1287,3,72, colorParedes);
+
+                    //Vertical Nivel 19
+                    pared[185] = new Cuadro(1358,105,3,72, colorParedes);
+                    pared[186] = new Cuadro(1358,252,3,72, colorParedes);
+                    pared[187] = new Cuadro(1358,842,3,222, colorParedes);
+                    pared[188] = new Cuadro(1358,1360,3,72, colorParedes);
+
+                    //Vertical Nivel 20
+                    pared[189] = new Cuadro(1432,180,3,72, colorParedes);
+                    pared[190] = new Cuadro(1432,328,3,72, colorParedes);
+                    pared[191] = new Cuadro(1432,470,3,300, colorParedes);
+                    pared[192] = new Cuadro(1432,1065,3,300, colorParedes);
 
 
                     //Referenciar recursos de la carpeta
@@ -356,6 +425,7 @@
                     plantilla.src = "laber.PNG";
                     musicaFondo.src = "tema.mp3";
                     fondo.src = "fondo.jpg"
+                    logo.src = "logo.png"
 
                     
 
@@ -366,13 +436,15 @@
                     window.requestAnimationFrame(paint);
                     /*canvasx.fillStyle = 'rgb(93, 193, 185)';
                     canvasx.fillRect(0,0,2000,1600);*/
-                    canvasx.drawImage(fondo,0,2,2000,1600);
+                    canvasx.drawImage(fondo,0,2,2500,1600);
+                    canvasx.drawImage(logo,1700,60,600,300);
 
-                    canvasx.drawImage(plantilla,20,20,1500,1500);
+                    //canvasx.drawImage(plantilla,20,20,1500,1500);
 
                     canvasx.fillStyle = "black";
-                    canvasx.font= "40pt Comic Sans MS";
-                    canvasx.fillText("Score: " + score,1600,1000);
+                    canvasx.font= "30pt Comic Sans MS";
+                    canvasx.fillText("Score: " + score,1700,420);
+                    canvasx.fillText("Camarones:",1700,520);
 
                     //player1.pintar(canvasx);
                     //player2.pintar(canvasx);
@@ -394,7 +466,13 @@
                         canvasx.drawImage(shark_izquierda,player1.x,player1.y,50,16);
                     }
                     
-                    canvasx.drawImage(camaron,player2.x,player2.y,30,30);
+                    canvasx.drawImage(camaron,player2.x,player2.y,40,40);
+                    canvasx.drawImage(camaron,player3.x,player3.y,40,40);
+                    canvasx.drawImage(camaron,player4.x,player4.y,40,40);
+                    canvasx.drawImage(camaron,player5.x,player5.y,40,40);
+                    canvasx.drawImage(camaron,player6.x,player6.y,40,40);
+                    canvasx.drawImage(camaron,player7.x,player7.y,40,40);
+                    //canvasx.drawImage(camaron,player8.x,player2.y,30,30);
 
                     update();
                     
@@ -444,15 +522,61 @@
                         }
                         
                     }
+                    /*
+                    player2 = new Cuadro(1935, 489, 80,80, "blue");
+                    player3 = new Cuadro(1975, 489, 50,50, "blue");
+                    player4 = new Cuadro(2015, 489, 50,50, "blue");
+                    player5 = new Cuadro(2055, 489, 50,50, "blue");
+                    player6 = new Cuadro(2095, 489, 50,50, "blue");
+                    player7 = new Cuadro(3035, 489, 50,50, "blue");*/
 
                     if (player1.se_tocan(player2)) {
-                        player2.x = getRandomInt(1100);
-                        player2.y = getRandomInt(700);
+                        player2.x = 1935;
+                        player2.y = 489;
 
                         score+=5;
 
                         comer.play();
-                        clearTimeout(t);
+                    }
+                    if (player1.se_tocan(player3)) {
+                        player3.x = 1975;
+                        player3.y = 489;
+
+                        score+=5;
+
+                        comer.play();
+                    }
+                    if (player1.se_tocan(player4)) {
+                        player4.x = 2015;
+                        player4.y = 489;
+
+                        score+=5;
+
+                        comer.play();
+                    }
+                    if (player1.se_tocan(player5)) {
+                        player5.x = 2055;
+                        player5.y = 489;
+
+                        score+=5;
+
+                        comer.play();
+                    }
+                    if (player1.se_tocan(player6)) {
+                        player6.x = 2095;
+                        player6.y = 489;
+
+                        score+=5;
+
+                        comer.play();
+                    }
+                    if (player1.se_tocan(player7)) {
+                        player7.x = 3035;
+                        player7.y = 489;
+
+                        score+=5;
+
+                        comer.play();
                     }
 
                     for(var i=0; i<=pared.length; i++){
