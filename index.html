@@ -7,16 +7,22 @@
         <STyle type="text/css">
                 canvas{
                     background-color: rgb(93, 193, 185);
+                    padding-left: 0;
+                    padding-right: 0;
+                    margin-left: auto;
+                    margin-right: auto;
+                    display: block;
+                    width: 800px;
                 }
         </STyle>
     </head>
-    <body style="min-height: 100%;">
+    <body style="background-color:rgb(93, 193, 185);"></body>
 
         <br>
         <br>
-        <h3>Tiempo: <time>00:00</time></h3>
+        <h1>Tiempo: <time>00:00</time></h1>
         
-        <canvas id="mycanvas" width="2500" height="1600">
+        <canvas id="mycanvas" width="2600" height="1600">
                 HOLA TU NAVEGADOR NO FUNCIONA
         </canvas>
 
@@ -35,6 +41,8 @@
             var player5 = null;
             var player6 = null;
             var player7 = null;
+            var player8 = null;
+            var player9 = null;
             var direccion = 'derecha';
             var speed = 0;
             var score = 0;
@@ -46,15 +54,15 @@
             var camaron = new Image();
             var comer = new Audio();
             var musicaFondo = new Audio();
+            var victoria = new Audio();
             let pared = [];
             var plantilla = new Image();
             var fondo = new Image();
             var logo = new Image();
+            var meta1 = new Image();
+            var meta2 = new Image();
             var i = 0;
-            var h3 = document.getElementsByTagName('h3')[0];
-            var start = document.getElementById('strt');
-            var stop = document.getElementById('stp');
-            var reset = document.getElementById('rst');
+            var h3 = document.getElementsByTagName('h1')[0];
             var sec = 0;
             var min = 0;
             var t;
@@ -130,6 +138,7 @@
                 function run() {
                     canvas = document.getElementById('mycanvas');
                     canvasx = canvas.getContext('2d');
+                    
 
                     //Jugador
                     player1 = new Cuadro(50,70, 30,30, "red");
@@ -141,6 +150,10 @@
                     player5 = new Cuadro(1305, 710, 50,50, "blue");
                     player6 = new Cuadro(490, 645, 50,50, "blue");
                     player7 = new Cuadro(1460, 345, 50,50, "blue");
+
+                    //Meta
+                    player8 = new Cuadro(1530, 50, 50,50, "blue");
+                    player9 = new Cuadro(1490, 1465, 50,50, "blue");
                     //bordes
                     pared[1] = new Cuadro(28, 30, 3,1470, colorParedes);
                     pared[2] = new Cuadro(30, 1505, 1400,3, colorParedes);
@@ -424,20 +437,24 @@
                     comer.src = "comer.mp3";
                     plantilla.src = "laber.PNG";
                     musicaFondo.src = "tema.mp3";
-                    fondo.src = "fondo.jpg"
-                    logo.src = "logo.png"
+                    fondo.src = "fondo.jpg";
+                    logo.src = "logo.png";
+                    meta1.src = "meta.png";
+                    meta2.src = "meta.png";
+                    victoria.src = "victoria.mp3";
 
-                    
-
+                    musicaFondo.play();
                     paint();
                 }
+                
 
                 function paint() {
                     window.requestAnimationFrame(paint);
-                    /*canvasx.fillStyle = 'rgb(93, 193, 185)';
-                    canvasx.fillRect(0,0,2000,1600);*/
-                    canvasx.drawImage(fondo,0,2,2500,1600);
+                    canvasx.drawImage(fondo,0,2,2600,1600);
                     canvasx.drawImage(logo,1700,60,600,300);
+
+                    canvasx.drawImage(meta1,player8.x,player8.y,40,40);
+                    canvasx.drawImage(meta2,player9.x,player9.y,40,40);
 
                     //canvasx.drawImage(plantilla,20,20,1500,1500);
 
@@ -445,6 +462,10 @@
                     canvasx.font= "30pt Comic Sans MS";
                     canvasx.fillText("Score: " + score,1700,420);
                     canvasx.fillText("Camarones:",1700,520);
+                    canvasx.fillText("Instrucciones: ",1700,620);
+                    canvasx.fillText("1.- WASD para Moverte o las Flechas direccionales",1550,660);
+                    canvasx.fillText("2.- Llega a una salida para ganar el juego",1550,700);
+                    canvasx.fillText("3.- Come los camarones para ganar puntos (Opcional)",1550,740);
 
                     //player1.pintar(canvasx);
                     //player2.pintar(canvasx);
@@ -466,24 +487,23 @@
                         canvasx.drawImage(shark_izquierda,player1.x,player1.y,50,16);
                     }
                     
+                    //Coleccionables
                     canvasx.drawImage(camaron,player2.x,player2.y,40,40);
                     canvasx.drawImage(camaron,player3.x,player3.y,40,40);
                     canvasx.drawImage(camaron,player4.x,player4.y,40,40);
                     canvasx.drawImage(camaron,player5.x,player5.y,40,40);
                     canvasx.drawImage(camaron,player6.x,player6.y,40,40);
                     canvasx.drawImage(camaron,player7.x,player7.y,40,40);
-                    //canvasx.drawImage(camaron,player8.x,player2.y,30,30);
 
-                    update();
                     
+                    update();
 
                 }
 
                 function update() {
-                    //musicaFondo.play();
+                    musicaFondo.play();
                     //arriba
                     if(direccion == 'arriba'){
-                        //speed = 15;
                         player1.y-=speed;
 
                        if (player1.y<=0) {
@@ -493,7 +513,6 @@
 
                     //abajo
                     if(direccion == 'abajo'){
-                        //speed = 15;
                        player1.y+=speed;
 
                        if (player1.y>=1560) {
@@ -504,7 +523,6 @@
 
                     //izquierda
                     if(direccion == 'izquierda'){
-                        //speed = 15;
                         player1.x-=speed;
                         if (player1.x<=0) {
                         player1.x+= speed;
@@ -514,7 +532,6 @@
 
                     //derecha
                     if(direccion == 'derecha'){
-                        //speed = 15;
                         player1.x+=speed;
 
                         if (player1.x>=1960) {
@@ -522,13 +539,6 @@
                         }
                         
                     }
-                    /*
-                    player2 = new Cuadro(1935, 489, 80,80, "blue");
-                    player3 = new Cuadro(1975, 489, 50,50, "blue");
-                    player4 = new Cuadro(2015, 489, 50,50, "blue");
-                    player5 = new Cuadro(2055, 489, 50,50, "blue");
-                    player6 = new Cuadro(2095, 489, 50,50, "blue");
-                    player7 = new Cuadro(3035, 489, 50,50, "blue");*/
 
                     if (player1.se_tocan(player2)) {
                         player2.x = 1935;
@@ -577,6 +587,19 @@
                         score+=5;
 
                         comer.play();
+                    }
+                    if (player1.se_tocan(player8)) {
+                        
+                        victoria.play();
+                        musicaFondo.pause();
+                        clearTimeout(t);
+
+                    }
+                    if (player1.se_tocan(player9)) {
+
+                        victoria.play();;
+                        musicaFondo.pause();
+                        clearTimeout(t);
                     }
 
                     for(var i=0; i<=pared.length; i++){
@@ -663,23 +686,15 @@
                 }
                 function add() {
                     tick();
-                    h3.textContent = "Tiempo: " + (min > 9 ? min : "0" + min)
+                    h3.textContent ="Tiempo: " + (min > 9 ? min : "0" + min)
        		                 + ":" + (sec > 9 ? sec : "0" + sec);
                     timer();
                 }
                 function timer() {
                     t = setTimeout(add, 1000);
                 }
+                timer();
 
-timer();/*
-start.onclick = timer;
-stop.onclick = function() {
-    clearTimeout(t);
-}
-reset.onclick = function() {
-    h1.textContent = "00:00:00";
-    seconds = 0; minutes = 0; hours = 0;
-}*/
         </script>
     </body>
 </html>
